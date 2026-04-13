@@ -42,5 +42,17 @@ export interface Database {
         Update: Partial<Omit<ShareLink, "id" | "note_id">>;
       };
     };
+    Views: {
+      [_ in never]: never;
+    };
+    Functions: {
+      [_ in never]: never;
+    };
+    Enums: {
+      [_ in never]: never;
+    };
+    CompositeTypes: {
+      [_ in never]: never;
+    };
   };
 }

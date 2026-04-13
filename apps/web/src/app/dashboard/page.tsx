@@ -3,6 +3,7 @@ import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
 import { NoteCard, Button } from "@quicknote/ui";
 import { Plus } from "lucide-react";
+import type { Note } from "@quicknote/types";
 
 export default async function DashboardPage() {
   const supabase = await createClient();
@@ -17,6 +18,8 @@ export default async function DashboardPage() {
     .select("*")
     .eq("user_id", user.id)
     .order("updated_at", { ascending: false });
+
+  const typedNotes = (notes ?? []) as Note[];
 
   return (
     <div className="mx-auto max-w-4xl px-4 py-8">
@@ -44,13 +47,13 @@ export default async function DashboardPage() {
         </div>
       </div>
 
-      {!notes || notes.length === 0 ? (
+      {typedNotes.length === 0 ? (
         <div className="py-12 text-center text-muted-foreground">
           <p>还没有笔记，点击右上角创建第一篇吧</p>
         </div>
       ) : (
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {notes.map((note) => (
+          {typedNotes.map((note) => (
             <Link key={note.id} href={`/notes/${note.id}`}>
               <NoteCard note={note} />
             </Link>
